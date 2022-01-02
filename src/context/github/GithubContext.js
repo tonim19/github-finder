@@ -29,6 +29,7 @@ export const GithubProvider = ({ children }) => {
     );
 
     const { items } = await response.json();
+    console.log(response);
 
     dispatch({
       type: "GET_USERS",
@@ -56,8 +57,13 @@ export const GithubProvider = ({ children }) => {
   };
 
   const getUserRepos = async (login) => {
+    const params = new URLSearchParams({
+      sort: "created",
+      per_page: 10,
+    });
+
     const response = await fetch(
-      `https://api.github.com/users/${login}/repos`,
+      `https://api.github.com/users/${login}/repos?${params}`,
       {
         headers: {
           Authorization: `token ${GITHUB_TOKEN}`,
